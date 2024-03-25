@@ -1,8 +1,8 @@
 import axiosConfig from '@/utils/axiosConfig'
-import { authOptions } from '../auth/[...nextauth]/route'
 import { getServerSession } from 'next-auth'
 import { NextResponse } from 'next/server'
 import { AxiosError } from 'axios'
+import { authOptions } from '@/utils/authConfig'
 
 export async function POST(req: Request) {
   try {

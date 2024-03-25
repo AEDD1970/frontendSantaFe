@@ -12,6 +12,8 @@ import ProductForm from "@/components/products/add";
 import { Button, Typography } from "@mui/material";
 import axios from "axios";
 import CustomSnackbar from "@/components/toast";
+import { useRouter } from "next/navigation";
+import { signOut } from "next-auth/react";
 
 export default function RootPageProduct() {
   const [openModalDelete, setOpenModalDelete] = useState<boolean>(false);
@@ -26,6 +28,7 @@ export default function RootPageProduct() {
     open: false,
     message: "",
   });
+  const router = useRouter()
 
   const deleteProduct = async () => {
     try {
@@ -61,10 +64,19 @@ export default function RootPageProduct() {
   useEffect(() => {
     fetchData();
   }, [paginationModel]);
+
+  const logout = () => {
+    signOut()
+    router.push('/')
+  }
+
   
 
   return (
     <Box sx={{ flexGrow: 1, padding: 4 }}>
+      <Box padding={5} display={'flex'} justifyContent={"flex-end"}>
+        <Button variant="contained" onClick={logout}>Exit App</Button>
+      </Box>
       <Typography color={"secondary"} variant="h3" component="h2">
         PRODUCTS
       </Typography>

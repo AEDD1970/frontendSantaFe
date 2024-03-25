@@ -8,6 +8,7 @@ import CustomTextField from "@/components/text-field";
 import { yupResolver } from "@hookform/resolvers/yup";
 import axios from "axios";
 import CustomSnackbar from "@/components/toast";
+import { useRouter } from "next/navigation";
 
 export default function AddUser() {
   const {
@@ -20,6 +21,8 @@ export default function AddUser() {
     resolver: yupResolver(schema),
   });
 
+  const route = useRouter()
+
   const onSubmit = (data: FormData) => {
     createUser(data)
   };
@@ -28,7 +31,7 @@ export default function AddUser() {
   const createUser = async (data: FormData) => {
     try {
       const createUser = await axios.post(`/api/users`, data);
-      console.log(createUser)
+      route.push('/')
     } catch (error) {
       console.log(error);
     }
