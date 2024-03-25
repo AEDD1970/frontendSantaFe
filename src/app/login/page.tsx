@@ -70,7 +70,7 @@ console.log(errors, "errors")
     <Box sx={{ width: '100%', maxWidth: 400 }}>
       <Box sx={{ my: 6 }}>
         <Typography variant='h3' sx={{ mb: 1.5 }}>
-          {`Welcome to ! 👋🏻`}
+          Welcome to ! 👋🏻
         </Typography>
         <Typography sx={{ color: 'text.secondary' }}>
           Please sign-in to your account and start the adventure
@@ -141,8 +141,8 @@ console.log(errors, "errors")
           }}
         >
          <Link href="/user" passHref>
-        <Typography component="a" variant="body1" color="primary">
-          regitser User
+        <Typography  color={"secondary"} variant="body1" >
+          Register User
         </Typography>
       </Link>
           

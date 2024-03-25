@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import ProductForm from "@/components/products/add";
 import { Button, Typography } from "@mui/material";
 import axios from "axios";
+import CustomSnackbar from "@/components/toast";
 
 export default function RootPageProduct() {
   const [openModalDelete, setOpenModalDelete] = useState<boolean>(false);
@@ -21,6 +22,10 @@ export default function RootPageProduct() {
   });
   const [rows, setRows] = useState([]);
   const [openModal, setOpenModal] = useState<boolean>(false);
+  const [toast, setToast] = useState({
+    open: false,
+    message: "",
+  });
 
   const deleteProduct = async () => {
     try {
@@ -29,7 +34,13 @@ export default function RootPageProduct() {
       );
       fetchData()
       setOpenModalDelete(!openModalDelete)
+      setID("")
+      setToast({ open: true,
+        message: "delete product",
+       })
     } catch (error) {
+      setToast({ open: true,
+        message: "error delete product"})
       console.log(error)
     }
   }
@@ -89,7 +100,7 @@ export default function RootPageProduct() {
           </Box>
         </Grid>
       </Grid>
-        <ProductForm openModal={openModal}  handleClose={()=> setOpenModal(!openModal)} />
+        <ProductForm openModal={openModal} handleClose={()=> setOpenModal(!openModal)} fetchData={fetchData}/>
       <CustomModal
         openModal={openModalDelete}
         handleClose= {() => setOpenModalDelete(!openModalDelete)}
@@ -100,6 +111,7 @@ export default function RootPageProduct() {
           <Typography color={"error"}>REMOVE</Typography>
         </Box>
       </CustomModal>
+      <CustomSnackbar {...toast} setToast={setToast} />
     </Box>
   );
 }

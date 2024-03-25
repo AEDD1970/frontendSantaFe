@@ -10,17 +10,19 @@ export async function POST(req: Request) {
     if (!session) {
       return NextResponse.json({ data: 'You must be logged in.' }, { status: 401 })
     }
-    console.log(req, "lklklklkasasas")
-    // const { data } = await axiosConfig.post(`products/register`, req.body ,{
-    //   headers: {
-    //     Authorization: `Bearer ${session.user?.token}`
-    //   }
-    // })
+    const body = await req.json()
+    const { data } = await axiosConfig.post(`products/register`, body ,{
+      headers: {
+        Authorization: `Bearer ${session.user?.token}`
+      }
+    })
 
-    return NextResponse.json("raton")
+    console.log(data)
+
+    return NextResponse.json({data: data.message})
   } catch (error: any) {
     if (error instanceof AxiosError) {
-      return NextResponse.json({ data: error.response?.data.message }, { status: error.response?.status })
+      return NextResponse.json( error.response?.data.message, { status: error.response?.status })
     }  
   }
 }

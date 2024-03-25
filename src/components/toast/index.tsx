@@ -5,35 +5,29 @@ import MuiAlert from '@mui/material/Alert';
 interface CustomSnackbarProps {
   open: boolean;
   message: string;
-  severity: string;
+  setToast: (data: any) => void
 }
 
-function Alert(props: any) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
+const CustomSnackbar = ({open, message, setToast}:CustomSnackbarProps) => {
 
-const CustomSnackbar: React.FC<CustomSnackbarProps> = ({ open, message, severity }) => {
-  const [snackbarOpen, setSnackbarOpen] = useState(open);
-
-  useEffect(() => {
-    if (open) {
-      const openTimeout = setTimeout(() => {
-        setSnackbarOpen(true);
-      }, 1000);
-      const closeTimeout = setTimeout(() => {
-        setSnackbarOpen(false);
-      }, 3000);
-      return () => {
-        clearTimeout(openTimeout);
-        clearTimeout(closeTimeout);
-      };
+  const handleClose = (event: any, reason: any) => {
+   // this condition will prevent dissapering Snackbar when clicking away
+    if (reason === 'clickaway') {
+      return; 
     }
-  }, [open]);
+
+    const closeTimeout = setTimeout(() => {
+        setToast({open: false});
+      }, 2000);
+  };
 
   return (
-    <Snackbar open={snackbarOpen} onClose={() => setSnackbarOpen(false)}>
-      <Alert severity={severity}>{message}</Alert>
-    </Snackbar>
+      <Snackbar 
+       open={open} 
+       onClose={handleClose} 
+       autoHideDuration={2000}
+       message={message}
+      />
   );
 };
 

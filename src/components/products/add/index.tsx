@@ -9,11 +9,12 @@ import CustomSnackbar from "@/components/toast";
 import axios from "axios";
 
 interface IProductForm {
-  handleClose: (open: boolean) => void;
+  handleClose: () => void;
   openModal: boolean;
+  fetchData: () => void
 }
 
-export default function ProductForm({ handleClose, openModal }: IProductForm) {
+export default function ProductForm({ handleClose, openModal, fetchData }: IProductForm) {
   // ** Hook
   const {
     control,
@@ -26,13 +27,11 @@ export default function ProductForm({ handleClose, openModal }: IProductForm) {
   });
   const buttonSubmit = useRef<HTMLButtonElement>(null);
 
-  const onSubmit = async (data: FormData) => {
+  const onSubmit = async (fData: FormData) => {
     try {
-      const createUser = await axios.post(`/api/products`, data,{
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
+      const { data } = await axios.post(`/api/products`, fData);
+      fetchData()
+      handleClose()
     } catch (error) {
       console.log(error);
     }
@@ -45,7 +44,7 @@ export default function ProductForm({ handleClose, openModal }: IProductForm) {
   return (
     <CustomModal
       openModal={openModal}
-      handleClose={() => handleClose(!openModal)}
+      handleClose={() => handleClose()}
       handleSubmit={() => createProduct()}
     >
       <Box sx={{ width: "100%", p: [6, 8] }}>
